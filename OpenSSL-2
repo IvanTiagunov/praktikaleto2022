@@ -1,0 +1,40 @@
+###
+т.к. метод(ssl.wrap_socket), указанный в теории стал depricated - я использовал вместо него SSLContext 
+###
+import ssl
+from http.server import HTTPServer, SimpleHTTPRequestHandler
+from ssl import SSLContext
+httpd = HTTPServer(("0.0.0.0", 4443), SimpleHTTPRequestHandler)
+context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+context.load_cert_chain('D:\Progs\praktikaLeto\server.pem', 'D:\Progs\praktikaLeto\key.pem')
+httpd.socket = SSLContext.wrap_socket(
+    self=context,
+    sock=httpd.socket,
+    server_side=True)
+
+if __name__ == '__main__':
+    httpd.serve_forever()
+    
+
+###
+Затем я запросил соединение по ssl
+
+openssl s_client -connect 127.0.0.1:4443
+
+и отправил запрос на получение файла с версиями библиотек, которые заранее указал в файле rq.txt
+
+GET /rq.txt HTTP/1.1
+
+На что получил следующий ответ:
+
+HTTP/1.0 200 OK
+Server: SimpleHTTP/0.6 Python/3.10.2
+Date: Fri, 08 Jul 2022 08:03:04 GMT
+Content-type: text/plain
+Content-Length: 69
+Last-Modified: Fri, 08 Jul 2022 07:19:35 GMT
+
+requests==2.28.1
+beautifulsoup4==4.11.1
+selenium==4.3.0
+http==0.0234450000:error:0A000126:SSL routines:ssl3_read_n:unexpected eof while reading:ssl\record\rec_layer_s3.c:309:
