@@ -1,0 +1,22 @@
+GET /ip HTTP/1.1
+Host: httpbin.org
+Accept: */*
+
+
+
+Ответ:
+
+HTTP/1.1 200 OK
+Date: Fri, 08 Jul 2022 06:15:56 GMT
+Content-Type: application/json
+Content-Length: 32
+Connection: keep-alive
+Server: gunicorn/19.9.0
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Credentials: true
+
+{
+   "origin": "178.46.118.76"
+                            }
+
+Получен ответ 200, сайт httpbin.org вернул мой текущий ip адрес
